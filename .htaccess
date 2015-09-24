@@ -1,0 +1,10 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteCond %{REQUEST_URI} !^\/(.*).css
+RewriteCond %{REQUEST_URI} !^\/images/(.*).png
+RewriteCond %{REQUEST_URI} !^\/resources/images/(.*).jpg
+RewriteCond %{REQUEST_URI} !^\/resources/lib/jquery/(.*).js
+RewriteRule ^(.*)$ index.php?%{REQUEST_URI} [QSA,L]

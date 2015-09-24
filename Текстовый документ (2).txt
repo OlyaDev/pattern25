@@ -1,0 +1,128 @@
+<?php
+include_once ('config.php');
+
+
+if ($_SERVER['REQUEST_URI'] == '/'){
+	$Page = 'index';
+	$Module = 'index';
+	} else {
+		$URL_Path = parse=url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+		$URL_Parts = explode('/', trim($URL_Path, '/'));
+		$Page = array_shift($URL_Parts);
+		$Module = array_shift($URL_Parts);
+	
+	if(!empty($Module)){
+		$Param = array();
+		for($i = 0; $i < count($URL_Parts); $i++){
+			$Param[$URL_Parts[$i]] = $URL_Parts[++$i];
+		}
+	}
+	}
+	
+	if ($Page == 'index') include ('index.php');
+	else if ($Page == 'download') include('downlod.php');
+	else if ($Page == 'anki') include('anki.php');
+
+?>
+
+
+<?php
+
+
+//mysql_connect('localhost','learn','goodday');
+//mysql_select_db('ankilearn_kl_com_ua') 
+//or die("Не могу подключиться к базе.");
+
+
+//include 'setting.php';
+//global $db;
+
+//$query = sprintf("SELECT * FROM mybd ");
+//$result = mysqli_query($db, $query);
+
+
+require_once 'config.php';
+require_once 'functions.php';
+
+$result = get_bd();
+$row = mysqli_fetch_assoc($result);
+
+$home_out =  $row['home'];
+$admin_login= $row['login'];
+$admin_pass = $row['password'];
+	
+if(!empty($_POST))
+		if($admin_login == $_POST['login'] && $admin_pass == $_POST['pass'])
+	{
+			header('location: admin.php?key=' . md5($_POST['pass']) );
+			exit();
+	}
+
+?>
+
+<html>
+
+	<head>
+		<meta http-equiv="Context-Type" content = "text/html"; 
+			charset = "windows-1251"/>
+		<title> AnkiLearn </title>
+		<link rel = "icon" href="images/al.ICO" type="image/x-icon">
+		<meta name = "description" content = "AnkiLearn">
+		<meta name = "keywords" content = "anki, English, coding, Spanish">
+		<link href = "css/core.css" rel = "stylesheet" type = "text/css"> 	
+		<link type = "text/css" href = "css/style.css" rel = "stylesheet" /> 
+		<link type = "text/css" href = "css/phone.css" rel = "stylesheet" media="handheld, only screen and (max-device-width:480px)"/>
+	</head>
+
+<body>
+<div class = "container" >
+	<div class = "wrapper" >
+			<div class = "menu_anki" > <a href= "index.php" >Home </a> </div>
+			<div class = "menu_anki" > <a href= "download.php" > Download </a> </div>
+			<div class = "menu_anki" > <a href = "anki.php" > Anki </a> </div>
+			<div class = "menu_anki" > <a href = "contacts.php"> Contacts </a> </div>
+	</div>
+
+	<div class = "login_password" >
+				<form  method="post">
+				<input type = "text" name = "login" placeholder="Login"></input></br>
+				<input type = "password" name = "pass" placeholder="Password"></input></br>
+				<input type = "submit" name = "ok" value="Enter"></input></br>
+	</div> 
+
+	<div class = "content" >
+			<div class = "text" > Welcome to AnkiLearn </div>		
+			<div class = "text" ><p> Anki Learn is optimal method for study of English and Coding and etc.<p> </div>
+			<div class="text"><?php echo $home_out; ?> </div>
+	</div>
+</div>
+
+
+</body>
+</html>
+
+
+<?php
+include_once ('config.php');
+
+
+if ($_SERVER['REQUEST_URI'] == '/'){
+	$Page = 'index';
+	$Module = 'index';
+	} else {
+		$URL_Path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+		$URL_Parts = explode('/', trim($URL_Path, '/'));
+		$Page = array_shift($URL_Parts);
+		$Module = array_shift($URL_Parts);
+	
+	if(!empty($Module)){
+		$Param = array();
+		for($i = 0; $i < count($URL_Parts); $i++){
+			$Param[$URL_Parts[$i]] = $URL_Parts[++$i];
+		}
+	}
+	}
+	
+	if ($Page == 'index') include ('index.php');
+	else if ($Page == 'download') include('download.php');
+	else if ($Page == 'anki') include('anki.php');
